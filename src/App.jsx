@@ -1,5 +1,51 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Router, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+
+function Home({ jokes, shown, handleShow, handleSave}) {
+  return(
+    <div>
+<h1>Jokes App</h1>
+<nav>
+  <Link to="/library">Go to saved Jokes</Link>
+</nav>
+
+<ul>
+  {jokes.map((joke) =>(
+    <li key={joke.id}>
+      <strong>{joke.setup}</strong> <br />
+      {shown.includes(joke.id) && <em>{joke.punchline}</em>} <br />
+
+      <button onClick={() => handleShow(joke.id)}>Show</button>{""}
+      <button onClick={() => handleSave(joke)}>Save</button>
+    </li>
+  )
+)}
+</ul>
+    </div>
+  );
+}
+
+function Library({saved}) {
+  return(
+  <div>
+    <h1>Saved Jokes</h1>
+
+    <nav>
+      <Link to="/">Back to Home</Link>
+    </nav>
+
+    <ul>
+      {saved.map((joke)=> (
+        <li key={joke.id}>
+          <strong>{joke.setup}</strong> <br />
+          <em>{joke.punchline}</em>
+        </li>
+      )
+      )}
+    </ul>
+  </div>
+  );
+}
 
 function App() {
   const [jokes, setJokes] = useState([]);
@@ -28,35 +74,11 @@ function App() {
 
   return (
    <BrowserRouter>
-   <div>
-      <h1>Jokes App</h1>
-      <ul>
-  {jokes.map((joke) => (
-    <li key={joke.id}>
-      <strong>{joke.setup}</strong><br />
-
-      {shown.includes(joke.id) && (
-        <em>{joke.punchline}</em>
-      )}
-      <br />
-
-      <button onClick={() => handleShow(joke.id)}>Show</button>
-      <button onClick={() => handleSave(joke)}>Save</button>
-    </li>
-  ))}
-</ul>
-
-
-      <h2>Saved Jokes</h2>
-      <ul>
-        {saved.map((joke) => (
-          <li key={joke.id}>
-            <strong>{joke.setup}</strong><br />
-            <em>{joke.punchline}</em>
-          </li>
-        ))}
-      </ul>
-    </div>
+   <Routes>
+    <Route path="/" element={<Home jokes={jokes} shown={shown} handleShow={handleShow} handleSave={handleSave} />} />
+    <Route path="/library" element={<Library saved={saved} />} />
+   </Routes>
+  
     </BrowserRouter>
   );
 }
