@@ -4,9 +4,10 @@ body {
   padding: 20px;
 }
 
-h1, h2 {
+h1,
+h2 {
   text-align: center;
-  color: #595cdd; /* Цвет из презентации */
+  color: #595cdd;
 }
 
 nav {
@@ -24,14 +25,14 @@ li {
   margin: 10px 0;
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 button {
   margin: 5px;
   padding: 8px 12px;
   border: none;
-  background-color: #595cdd; /* Кнопки цвета Jokes App */
+  background-color: #595cdd;
   color: white;
   border-radius: 5px;
   cursor: pointer;
@@ -43,7 +44,7 @@ button:disabled {
 }
 
 button:hover:not(:disabled) {
-  background-color: #4a49c4; /* Чуть темнее при наведении */
+  background-color: #4a49c4;
 }
 
 em {
