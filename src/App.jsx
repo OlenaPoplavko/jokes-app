@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 
+// Component for the main page where random jokes are shown
 function Home({ jokes, shown, handleShow, handleSave, handleRefresh }) {
   return (
     <div>
@@ -17,8 +18,8 @@ function Home({ jokes, shown, handleShow, handleSave, handleRefresh }) {
           <li key={joke.id}>
             <strong>{joke.setup}</strong> <br />
             {shown.includes(joke.id) && <em>{joke.punchline}</em>} <br />
-            <button onClick={() => handleShow(joke.id)}>Show</button>
-            {''}
+            {/* Show punchline and save button */}
+            <button onClick={() => handleShow(joke.id)}>Show</button>{' '}
             <button onClick={() => handleSave(joke)}>Save</button>
           </li>
         ))}
@@ -27,6 +28,7 @@ function Home({ jokes, shown, handleShow, handleSave, handleRefresh }) {
   );
 }
 
+// Component for the saved jokes page
 function Library({ saved }) {
   return (
     <div>
@@ -49,10 +51,11 @@ function Library({ saved }) {
 }
 
 function App() {
-  const [jokes, setJokes] = useState([]);
-  const [shown, setShown] = useState([]);
-  const [saved, setSaved] = useState([]);
+  const [jokes, setJokes] = useState([]); // All loaded jokes
+  const [shown, setShown] = useState([]); // IDs of jokes where punchline was shown
+  const [saved, setSaved] = useState([]); // Favorite jokes
 
+  // Fetch 10 random jokes from the API
   async function fetchJokes() {
     try {
       const res = await fetch(
@@ -70,20 +73,24 @@ function App() {
     }
   }
 
+  // Initial joke fetch when component mounts
   useEffect(() => {
     fetchJokes();
   }, []);
 
+  // Mark a joke as "shown" so the punchline is displayed
   function handleShow(id) {
     setShown([...shown, id]);
   }
 
+  // Add joke to favorites if it hasn't been saved yet
   function handleSave(joke) {
     if (!saved.find((item) => item.id === joke.id)) {
       setSaved([...saved, joke]);
     }
   }
 
+  // Load new jokes and reset the "shown" state
   function handleRefresh() {
     fetchJokes();
     setShown([]);
@@ -92,6 +99,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Main page with random jokes */}
         <Route
           path="/"
           element={
@@ -104,6 +112,7 @@ function App() {
             />
           }
         />
+        {/* Page with saved jokes */}
         <Route path="/library" element={<Library saved={saved} />} />
       </Routes>
     </BrowserRouter>
