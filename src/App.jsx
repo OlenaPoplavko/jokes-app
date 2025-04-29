@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import './App.css';
 
-function Home({ jokes, shown, handleShow, handleSave}) {
+
+function Home({ jokes, shown, handleShow, handleSave, handleRefresh}) {
   return(
     <div>
 <h1>Jokes App</h1>
 <nav>
   <Link to="/library">Go to saved Jokes</Link>
 </nav>
+
+<button onClick={handleRefresh}>Refresh</button>
 
 <ul>
   {jokes.map((joke) =>(
@@ -52,12 +56,13 @@ function App() {
   const [shown, setShown] = useState([]);
   const [saved, setSaved] = useState([]);
 
+  async function fetchJokes() {
+    const res = await fetch("https://official-joke-api.appspot.com/random_ten");
+    const data = await res.json();
+    setJokes(data);
+  }
+
   useEffect(() => {
-    async function fetchJokes() {
-      const res = await fetch("https://official-joke-api.appspot.com/random_ten");
-      const data = await res.json();
-      setJokes(data);
-    }
     fetchJokes();
   }, []);
 
@@ -72,10 +77,15 @@ function App() {
     }
   }
 
+  function handleRefresh() {
+   fetchJokes();
+   setShown([]);
+  }
+
   return (
    <BrowserRouter>
    <Routes>
-    <Route path="/" element={<Home jokes={jokes} shown={shown} handleShow={handleShow} handleSave={handleSave} />} />
+    <Route path="/" element={<Home jokes={jokes} shown={shown} handleShow={handleShow} handleSave={handleSave} handleRefresh={handleRefresh}/>} />
     <Route path="/library" element={<Library saved={saved} />} />
    </Routes>
   
