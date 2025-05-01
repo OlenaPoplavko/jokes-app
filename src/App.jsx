@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 
@@ -56,7 +56,7 @@ function App() {
   const [saved, setSaved] = useState([]); // Favorite jokes
 
   // Fetch 10 random jokes from the API
-  async function fetchJokes() {
+  const fetchJokes = useCallback(async () => {
     try {
       const res = await fetch(
         'https://official-joke-api.appspot.com/random_ten'
@@ -71,7 +71,7 @@ function App() {
       console.error(error);
       alert('Error fetching jokes. Please try again later.');
     }
-  }
+  }, []);
 
   // Initial joke fetch when component mounts
   useEffect(() => {
