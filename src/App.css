@@ -1,5 +1,6 @@
 /* 
-  Color scheme (#595cdd) based on the suggested design from the presentation
+  Color scheme (#595cdd) based on the suggested design from the presentation.
+  Added clear text color to ensure jokes are always visible in all browsers.
 */
 
 body {
@@ -26,6 +27,7 @@ ul {
 
 li {
   background: white;
+  color: #000;
   margin: 10px 0;
   padding: 15px;
   border-radius: 8px;
